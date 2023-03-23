@@ -16,5 +16,15 @@ public class ProductMapper {
                 .build();
 
     }
+    public ProductDto map(Product product){
+        return ProductDto.builder()
+                .productId(String.valueOf(product.getId()))
+                .price(String.valueOf(product.getPrice()))
+                .description(product.getDescription())
+                .name(product.getName())
+                .category(product.getCategory())
+                .unitsInStock(String.valueOf(product.getUnitsInStock()))
+                .build();
+    }
 
 }
