@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="icon" href="/img/Fevicon.png" type="image/png">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="icon" href="img/Fevicon.png" type="image/png">
     <link rel="stylesheet" href="/vendors/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="/vendors/themify-icons/themify-icons.css">
@@ -11,8 +13,6 @@
     <link rel="stylesheet" href="/vendors/nice-select/nice-select.css">
     <link rel="stylesheet" href="/vendors/nouislider/nouislider.min.css">
     <link rel="stylesheet" href="/css/style.css">
-    <meta charset="UTF-8">
-    <title>Title</title>
 </head>
 <body>
 <!--================Single Product Area =================-->
@@ -35,21 +35,34 @@
             <div class="col-lg-5 offset-lg-1">
                 <div class="s_product_text">
                     <h3 th:text="${productDto.name}"></h3>
-                    <h2 th:text="${productDto.price} +'Ron'"></h2>
+                    <h2 th:text="${productDto.price} + ' Ron'"></h2>
                     <ul class="list">
-                        <li><a class="active" href="#"><span>Category</span> : <span th:text="${productDto.category}"></span></a></li>
-                        <li><a href="#"><span>In Stock</span> : <span th:text="${productDto.unitsInStock} + ' Units'"></span></a></li>
+                        <li><a class="active" href="#"><span>Category</span> : <span
+                                th:text="${productDto.category}"></span></a></li>
+                        <li><a href="#">
+                            <span>In Stock</span> :
+                            <span th:text="${productDto.unitsInStock}"></span>
+                            <span th:switch="${productDto.unitsInStock}">
+                            <p th:case="1">unit</p>
+                            <p th:case="0">Empty stock</p>
+                            <p th:case="*">units</p>
+                            </span>
+                        </a>
+                        </li>
                     </ul>
                     <p th:text="${productDto.description}"></p>
-                    <div class="product_count">
-                        <label >Quantity:</label>
-                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                class="increase items-count" type="button"><i class="ti-angle-left"></i></button>
-                        <input type="text" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                class="reduced items-count" type="button"><i class="ti-angle-right"></i></button>
-                        <a class="button primary-btn" href="#">Add to Cart</a>
-                    </div>
+                    <form th:object="${productQuantityDto}" th:action="@{/product/{x}(x=${productDto.productId})}" method="post">
+                        <div class="product_count">
+                            <label>Quantity:</label>
+                            <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+                                    class="increase items-count" type="button"><i class="ti-angle-left"></i></button>
+                            <input th:field="*{quantity}" type="text" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:"
+                                   class="input-text qty">
+                            <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+                                    class="reduced items-count" type="button"><i class="ti-angle-right"></i></button>
+                            <button type="submit" class="button primary-btn" href="#">Add to Cart</button>
+                        </div>
+                    </form>
                     <div class="card_area d-flex align-items-center">
                         <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
                         <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
