@@ -22,4 +22,7 @@ public class UserAccount {
     private String address;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn
+    private Cart cart;
 }
