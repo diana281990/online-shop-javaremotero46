@@ -1,13 +1,14 @@
 package com.sda.onlineshopjavaremotero46.controller;
 
 
-
 import com.sda.onlineshopjavaremotero46.dto.ProductDto;
 import com.sda.onlineshopjavaremotero46.dto.ProductQuantityDto;
 import com.sda.onlineshopjavaremotero46.dto.UserAccountDto;
+import com.sda.onlineshopjavaremotero46.service.CartService;
 import com.sda.onlineshopjavaremotero46.service.ProductService;
 import com.sda.onlineshopjavaremotero46.service.UserAccountService;
 import com.sda.onlineshopjavaremotero46.validator.UserAccountValidator;
+import jakarta.persistence.Id;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,19 +30,24 @@ public class MainController {
     private UserAccountService userAccountService;
     @Autowired
     private UserAccountValidator userAccountValidator;
+    @Autowired
+    private CartService cartService;
+
     @GetMapping("/addProduct")
     public String addProductGet(Model model) {
         ProductDto productDto = new ProductDto();
         model.addAttribute("productDto", productDto);
         return "addProduct";
     }
+
     @PostMapping("/addProduct")
-    public String addProductPost(@ModelAttribute ProductDto productDto,@RequestParam("productImg") MultipartFile multipartFile ) {
+    public String addProductPost(@ModelAttribute ProductDto productDto, @RequestParam("productImg") MultipartFile multipartFile) {
         System.out.println(productDto);
         log.info("apelat add product");
         productService.create(productDto, multipartFile);
         return "redirect:/addProduct";
     }
+
     @GetMapping("/home")
     public String homeGet(Model model) {
         List<ProductDto> productDtoList = productService.getAllProductDtoList();
@@ -49,6 +55,7 @@ public class MainController {
         System.out.println(productDtoList);
         return "home";
     }
+
     @GetMapping("/product/{id}")
     public String viewProductGet(Model model, @PathVariable(value = "id") String id) {
         System.out.println("click pe produsul cu id-ul" + id);
@@ -61,33 +68,46 @@ public class MainController {
         model.addAttribute("productQuantityDto", productQuantityDto);
         return "viewProduct";
     }
+
     @PostMapping("/product/{id}")
-    public String addToCartPost(@ModelAttribute ProductQuantityDto productQuantityDto, @PathVariable(value = "id") String id, Authentication authentication){
+    public String addToCartPost(@ModelAttribute ProductQuantityDto productQuantityDto,
+                                @PathVariable(value = "id") String id, Authentication authentication) {
         System.out.println(productQuantityDto);
-        System.out.println("adaug in cos produsul cu id: " +id);
+        System.out.println("adaug in cos produsul cu id: " + id);
         System.out.println(authentication.getName());
-        return "redirect:/product/"+ id;
+        cartService.addToCart(id, productQuantityDto, authentication.getName());
+        return "redirect:/product/" + id;
     }
+
     @GetMapping("/register")
-    public String registerGet(Model model){
+    public String registerGet(Model model) {
         UserAccountDto userAccountDto = new UserAccountDto();
         model.addAttribute("userAccountDto", userAccountDto);
         return "register";
     }
+
     @PostMapping("/register")
-    public String registerPost(@ModelAttribute UserAccountDto userAccountDto, BindingResult bindingResult){
+    public String registerPost(@ModelAttribute UserAccountDto userAccountDto, BindingResult bindingResult) {
         System.out.println(userAccountDto);
         userAccountValidator.validate(userAccountDto, bindingResult);
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "register";
         }
         userAccountService.userRegister(userAccountDto);
         return "redirect:/login";
     }
+
     @GetMapping("/login")
-    public String loginGet(){
+    public String loginGet() {
         return "login";
     }
+
+    @GetMapping("/checkout")
+    public String checkoutGet() {
+        return "checkout";
+    }
+
+
 }
 
 
