@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
     <link rel="stylesheet" href="vendors/nice-select/nice-select.css">
     <link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
-
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -32,18 +31,12 @@
             <div class="col-lg-6">
                 <div class="login_form_inner">
                     <h3>Log in to enter</h3>
-                    <form class="row login_form" action="#/" id="contactForm" >
+                    <form class="row login_form" action="/login" method="post" id="contactForm" >
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Username" onfocus="this.placeholder = 'Email'" onblur="this.placeholder = 'Email ex :dorin@gmail.com'">
                         </div>
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <div class="creat_account">
-                                <input type="checkbox" id="f-option2" name="selector">
-                                <label for="f-option2">Keep me logged in</label>
-                            </div>
+                            <input type="text" class="form-control" id="Password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
                         </div>
                         <div class="col-md-12 form-group">
                             <button type="submit" value="submit" class="button button-login w-100">Log In</button>
@@ -56,14 +49,13 @@
     </div>
 </section>
 <!--================End Login Box Area =================-->
-<script src="/vendors/jquery/jquery-3.2.1.min.js"></script>
-<script src="/vendors/bootstrap/bootstrap.bundle.min.js"></script>
-<script src="/vendors/skrollr.min.js"></script>
-<script src="/vendors/owl-carousel/owl.carousel.min.js"></script>
-<script src="/vendors/nice-select/jquery.nice-select.min.js"></script>
-<script src="/vendors/jquery.ajaxchimp.min.js"></script>
-<script src="/vendors/mail-script.js"></script>
-<script src="/js/main.js"></script>
-
 </body>
+<script src="vendors/jquery/jquery-3.2.1.min.js"></script>
+<script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="vendors/skrollr.min.js"></script>
+<script src="vendors/owl-carousel/owl.carousel.min.js"></script>
+<script src="vendors/nice-select/jquery.nice-select.min.js"></script>
+<script src="vendors/jquery.ajaxchimp.min.js"></script>
+<script src="vendors/mail-script.js"></script>
+<script src="js/main.js"></script>
 </html>
