@@ -1,9 +1,7 @@
 package com.sda.onlineshopjavaremotero46.controller;
 
 
-import com.sda.onlineshopjavaremotero46.dto.ProductDto;
-import com.sda.onlineshopjavaremotero46.dto.ProductQuantityDto;
-import com.sda.onlineshopjavaremotero46.dto.UserAccountDto;
+import com.sda.onlineshopjavaremotero46.dto.*;
 import com.sda.onlineshopjavaremotero46.service.CartService;
 import com.sda.onlineshopjavaremotero46.service.ProductService;
 import com.sda.onlineshopjavaremotero46.service.UserAccountService;
@@ -18,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,7 +102,27 @@ public class MainController {
     }
 
     @GetMapping("/checkout")
-    public String checkoutGet() {
+    public String checkoutGet(Model model, Authentication authentication) {
+//        CheckoutDto checkoutDto = CheckoutDto.builder()
+//                .total("2800")
+//                .shippingFee("9")
+//                .subtotal("446")
+//                .productCheckoutDtoList(Arrays.asList(
+//                        ProductCheckoutDto.builder()
+//                                .name("capsuni")
+//                                .quantity("17")
+//                                .price("8")
+//                                .total("136")
+//                                .build(),
+//                        ProductCheckoutDto.builder()
+//                                .name("banane")
+//                                .quantity("25")
+//                                .price("16")
+//                                .total("185")
+//                                .build()
+//                )).build();
+        CheckoutDto checkoutDto = cartService.getCheckoutDtoByUserEmail(authentication.getName());
+        model.addAttribute("checkoutDto",checkoutDto);
         return "checkout";
     }
 
