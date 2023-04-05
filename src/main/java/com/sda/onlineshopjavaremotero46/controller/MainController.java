@@ -3,6 +3,7 @@ package com.sda.onlineshopjavaremotero46.controller;
 
 import com.sda.onlineshopjavaremotero46.dto.*;
 import com.sda.onlineshopjavaremotero46.service.CartService;
+import com.sda.onlineshopjavaremotero46.service.OrderService;
 import com.sda.onlineshopjavaremotero46.service.ProductService;
 import com.sda.onlineshopjavaremotero46.service.UserAccountService;
 import com.sda.onlineshopjavaremotero46.validator.UserAccountValidator;
@@ -31,6 +32,8 @@ public class MainController {
     private UserAccountValidator userAccountValidator;
     @Autowired
     private CartService cartService;
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/addProduct")
     public String addProductGet(Model model) {
@@ -103,30 +106,24 @@ public class MainController {
 
     @GetMapping("/checkout")
     public String checkoutGet(Model model, Authentication authentication) {
-//        CheckoutDto checkoutDto = CheckoutDto.builder()
-//                .total("2800")
-//                .shippingFee("9")
-//                .subtotal("446")
-//                .productCheckoutDtoList(Arrays.asList(
-//                        ProductCheckoutDto.builder()
-//                                .name("capsuni")
-//                                .quantity("17")
-//                                .price("8")
-//                                .total("136")
-//                                .build(),
-//                        ProductCheckoutDto.builder()
-//                                .name("banane")
-//                                .quantity("25")
-//                                .price("16")
-//                                .total("185")
-//                                .build()
-//                )).build();
+
         CheckoutDto checkoutDto = cartService.getCheckoutDtoByUserEmail(authentication.getName());
-        model.addAttribute("checkoutDto",checkoutDto);
+        model.addAttribute("checkoutDto", checkoutDto);
         return "checkout";
     }
 
+    @GetMapping("/confirmation")
+    public String confirmationGet(){
 
+        return "error";
+    }
+    @PostMapping("/confirmation")
+    public  String confirmationPost(Model model,Authentication authentication){
+        orderService.placeOrder(authentication.getName());
+        CheckoutDto checkoutDto = cartService.getCheckoutDtoByUserEmail(authentication.getName());
+        model.addAttribute("checkoutDto", checkoutDto);
+        return "confirmation";
+    }
 }
 
 

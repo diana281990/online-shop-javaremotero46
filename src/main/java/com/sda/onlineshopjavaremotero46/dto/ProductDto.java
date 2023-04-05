@@ -1,9 +1,6 @@
 package com.sda.onlineshopjavaremotero46.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.aspectj.lang.annotation.AfterReturning;
 
 @Data
@@ -17,5 +14,6 @@ public class ProductDto {
     private String price;
     private String category;
     private String unitsInStock;
+    @ToString.Exclude
     private String img;
 }
